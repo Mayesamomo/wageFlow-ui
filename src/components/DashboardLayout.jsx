@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Dashboard from "../pages/Dashboard";
 import Home from "../pages/Home";
+import Invoice from "../pages/Invoice";
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -41,6 +42,7 @@ const DashboardLayout = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/invoice" element={<Invoice/>} />
           </Routes>
         </BrowserRouter>
       </div>

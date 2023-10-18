@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { FaBars, FaBell, FaUser } from 'react-icons/fa';
-
+import wageFlowLogo from '../assets/wageFlow_logo.png';
 // eslint-disable-next-line no-unused-vars
 const Header = ({ toggleSidebar }) => {
   return (
@@ -8,7 +8,7 @@ const Header = ({ toggleSidebar }) => {
     <div className="flex items-center">
       <div className="hidden md:flex items-center">
         <img
-          src="https://www.emprenderconactitud.com/img/POC%20WCS%20(1).png"
+          src={wageFlowLogo}
           alt="Logo"
           className="w-28 h-18 mr-2"
         />

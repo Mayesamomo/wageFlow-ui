@@ -1,9 +1,10 @@
+import DashboardStats from "../components/dashboard/DashboardStats"
 
 
 const Dashboard = () => {
   return (
     <div>
-      dashboard
+      <DashboardStats/>
     </div>
   )
 }
