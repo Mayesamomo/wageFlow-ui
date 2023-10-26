@@ -1,11 +1,9 @@
 /* eslint-disable react/prop-types */
-
-
 const TableRow = ({invoice}) => {
   return (
     <tr>
             <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                <span>{invoice.number}</span>
+                <span>{invoice._id}</span>
             </td>
             <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
                 {invoice.client.company}
@@ -14,7 +12,7 @@ const TableRow = ({invoice}) => {
                 {invoice.date}
             </td>
             <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-                {invoice.total}
+                {invoice.totalamount}
             </td>
             <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
                 {invoice.status}

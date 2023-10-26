@@ -1,17 +1,34 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import {
-  FaHome,
-  FaFileAlt,
-  FaUsers,
-  FaStore,
-  FaExchangeAlt,
   FaSignOutAlt
 } from 'react-icons/fa';
+import { logout } from "../api/ApiService"
 import menuItems from '../constants/MenuItems';
 
 const Sidebar = ({ isOpen }) => {
+  const useAuth = () => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      return true
+    }
+    return false
+  };
+
+  const user = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await logout();
+      localStorage.removeItem("user");
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+
+  };
   const sidebarClass = isOpen ? 'p-2 bg-white w-60 flex flex-col' : 'hidden';
   return (
     <div className={sidebarClass} id="sideNav">
@@ -28,7 +45,7 @@ const Sidebar = ({ isOpen }) => {
       </nav>
 
       {/* Item for logging out */}
-      <a className="block text-gray-500 py-2.5 px-4 my-2 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 hover:text-white mt-auto" href="#">
+      <a onClick={handleLogout} className="block text-gray-500 py-2.5 px-4 my-2 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 hover:text-white mt-auto" href="#">
         <FaSignOutAlt className="mr-2" /> Logout
       </a>
 

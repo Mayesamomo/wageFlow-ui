@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Pagination, TableHeader, TableRow } from "../components/invoice";
 import { getAllInvoices } from "../api/ApiService";
-function InvoiceTable() {
+function RecentInvoice() {
     const itemsPerPage = 5;
     const [currentPage, setCurrentPage] = useState(1);
     const [invoices, setInvoices] = useState([]);
@@ -47,15 +47,8 @@ function InvoiceTable() {
                     </div>
                 </div>
             </div>
-
-            <Pagination
-                currentPage={currentPage}
-                totalItems={invoices.length}
-                itemsPerPage={itemsPerPage}
-                onPageChange={handlePageChange}
-            />
         </section>
     );
 }
 
-export default InvoiceTable;
+export default RecentInvoice(;
