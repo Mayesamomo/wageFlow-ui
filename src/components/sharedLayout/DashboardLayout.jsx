@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate} from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import Sidebar from "../Sidebar";
 import Header from "../Header";
 const DashboardLayout = () => {
-    // const { state } = useAuth();
+  const { user } = useAuthContext();
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
     const toggleSidebar = () => {
@@ -31,19 +32,23 @@ const DashboardLayout = () => {
             window.removeEventListener("resize", handleResize);
         };
     }, []);
-
-    return (
+ if(!user) return <Navigate to="/login" replace:true />;
+        return (
         
             <div className="flex flex-col h-screen bg-gray-100">
                 <Header toggleSidebar={toggleSidebar} />
                 <div className="flex-1 flex">
                     <Sidebar isOpen={sidebarOpen} />
+                    {/* <Outlet>
+                        <DashboardStats />
+                    </Outlet> */}
                     <Outlet />
                 </div>
             </div>
     
 
     );
+     
 };
 
 export default DashboardLayout;

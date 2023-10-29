@@ -1,16 +1,15 @@
 import  { useState } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
-import  API_URL  from '../../api/server';
-import axios from 'axios';
+import {useSignup} from '../../hooks/useSignup'
 import { toast, ToastContainer } from 'react-toastify';
 
 const SignUp = () => {
-  const navigate = useNavigate();
+   const navigate = useNavigate();
   const [name, setname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
+  const {signup, error, isLoading} = useSignup()
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -26,18 +25,14 @@ const SignUp = () => {
       return;
     }
 
-    const data = { name, email, password };
     try {
-      const response = await axios.post(`${API_URL}auth/register`, data);
-      toast.success(response.data.message);
-      navigate('/login');
-      // Clear the input fields
-      setname('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
+      await signup(name, email, password);
+      if (!isLoading && !error && signup ===200) {
+        toast.success('Signup successful. Please login.');
+        navigate ('/login', { replace: true });
+      }
     } catch (error) {
-      toast.error(error.response.data.message || error.message);
+      toast.error(error);
     }
   };
 
@@ -116,7 +111,8 @@ const SignUp = () => {
             <div className="text-grey-dark my-4">
               Already have an account?{' '}
               <span className="no-underline border-b border-blue text-blue">
-                <Link to={'/login'}>Login</Link>
+                <Link to="/login">Log in</Link>
+              
               </span>
             </div>
           </div>

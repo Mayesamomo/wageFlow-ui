@@ -1,34 +1,30 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import  API_URL  from '../../api/server';
-import axios from 'axios';
+import { useNavigate, Navigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useLogin } from "../../hooks/useLogin";
 
-const Login = () => { 
-    const navigate = useNavigate();
+const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login, isLoading, error } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if any of the fields are empty
     if (!email || !password) {
-      toast.error('Email and password are required');
+      toast.error("Please fill in all fields.");
       return;
     }
 
-    const user = { email, password };
     try {
-      const response = await axios.post(`${API_URL}auth/login`, user, { withCredentials: true });
-
-      if (response.data.success) {
-        toast.success(response.data.message);
+      await login(email, password);
+      if (!isLoading && !error) {
         navigate('/dashboard');
-        window.location.reload(true);
       }
     } catch (error) {
-      toast.error(error.response.data.message || error.message);
+      toast.error("Login failed. Please check your credentials.");
     }
   };
 
@@ -77,10 +73,10 @@ const Login = () => {
             </div>
 
             <div className="text-grey-dark mt-6">
-                Don&rsquo;t have an account?{' '}
-                <span className="no-underline border-b border-blue text-blue">
-                    <Link to="/register">Register</Link>
-                </span>
+              Don&rsquo;t have an account?{' '}
+              <span className="no-underline border-b border-blue text-blue">
+                <Navigate  to="/register">Register</Navigate>
+              </span>
             </div>
           </div>
         </div>

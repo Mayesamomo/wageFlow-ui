@@ -5,6 +5,7 @@ import wageFlowLogo from '../assets/wageFlow_logo.png';
 import ProFileCard from './modals/ProFileCard';
 // eslint-disable-next-line no-unused-vars
 const Header = ({ toggleSidebar }) => {
+  // const { user } = useAuthContext();
   const [isModalOpen, setModalOpen] = useState(false);
   const modalRef = useRef(null);
 

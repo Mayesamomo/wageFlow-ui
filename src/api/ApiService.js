@@ -7,6 +7,7 @@ const api = axios.create({
     withCredentials: true,
     });
 
+    //@desc login user
     export const login = async (email, password) => {
         const url = `${API_URL}/auth/login`;
         const response = await api.post(url, {
@@ -29,6 +30,8 @@ const api = axios.create({
         });
         return response.data;
     };
+
+    //@desc logout user
     export const logout = async () => {
         const response = await api.post("auth/logout");
         return response.data;

@@ -1,45 +1,37 @@
 import './App.css'
-import { useEffect } from 'react'
-import { RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import DashboardLayout from './components/sharedLayout/DashboardLayout'
-import Client from './pages/Client'
-import Dashboard from './pages/Dashboard'
-import Home from './pages/Home'
+import { PublicLayout } from './components/sharedLayout/PublicLayout'
 import InvoiceTable from './pages/Invoice'
+import Client from './pages/Client'
 import LoginPage from './pages/Login'
 import Register from './pages/Register'
+import Home from './pages/Home'
+import Dashboard from './pages/Dashboard'
 
-import Store from "./redux/store";
-import { loadUser } from "./redux/action/user";
-import { getAllClients } from './redux/action/client'
-import ProtectedRoute from './routes/protectedRoute'
-const router = createBrowserRouter(createRoutesFromElements(
-  <Route path="/" element={<Home/>} >
-     <Route index element={<Home/>} />
-      <Route path="/login" element={<LoginPage/>} />
-      <Route path="/register" element={<Register/>} />
-     <Route element={<ProtectedRoute/>}>
-      <Route path="/" element={<DashboardLayout/>}>
-        <Route index element={<Dashboard/>} />
-        <Route path="/client" element={<Client/>} />
-        <Route path="/invoice" element={<InvoiceTable/>} />
-      </Route>
-     </Route>
-  </Route>
-))
 function App() {
 
-  useEffect(() => {
-    Store.dispatch(loadUser());
-    Store.dispatch(getAllClients());
-  }, [])
-
- 
   return (
-    <RouterProvider router={router} />
+    <BrowserRouter>
+      <Routes>
+        <Route element={<PublicLayout />}>
+          <Route exact  path='/' element={<Home/>} />
+          <Route path='login' element={<LoginPage />} />
+          <Route path='register' element={<Register />} />
+        </Route>
+        
+        <Route exact path='/' element={<DashboardLayout />} >
+        <Route path='/dashboard' element={<Dashboard/>} />
+          <Route path='/invoice' element={<InvoiceTable />} />
+          <Route path='invoice/:id' element={<InvoiceTable />} />
+          <Route path='invoice/:id/edit' element={<InvoiceTable />} />
+          <Route path='invoice/:id/delete' element={<InvoiceTable />} />
+          <Route path='client' element={<Client />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+
+
   )
 }
 
