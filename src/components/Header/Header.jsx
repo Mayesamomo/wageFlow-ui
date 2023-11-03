@@ -18,35 +18,21 @@ const Header = () => {
   const dispatch = useDispatch();
   const history = useNavigate();
   const location = useLocation();
-
-  const [user, setUser] = useState(() => {
-    const storedProfile = localStorage.getItem('profile');
-    return storedProfile ? JSON.parse(storedProfile) : null;
-  });
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
 
   useEffect(() => {
-    setUser(() => {
-      const storedProfile = localStorage.getItem('profile');
-      return storedProfile ? JSON.parse(storedProfile) : null;
-    });
-  }, [location]);
+    setUser(JSON.parse(localStorage.getItem('profile')))
+},[location])
 
-  const logout = () => {
-    dispatch({ type: 'LOGOUT' });
-    history('/');
-    setUser(null);
-  };
-
-  useEffect(() => {
-    const token = user?.token;
-
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      if (decodedToken.exp * 1000 < new Date().getTime()) {
-        logout();
-      }
-    }
-  }, [location, logout, user]);
+useEffect(()=> {
+  const token = user?.token
+ 
+  if(token) {
+      const decodedToken = jwtDecode(token)
+      if(decodedToken.exp * 1000 < new Date().getTime()) logout()
+  }
+  // eslint-disable-next-line
+}, [location, user])
 
   const [open, setOpen] = useState(false);
   const anchorRef = React.createRef();
@@ -55,6 +41,11 @@ const Header = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
+  const logout = () => {
+    dispatch({ type: 'LOGOUT' });
+    history('/');
+    setUser(null);
+  };
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
