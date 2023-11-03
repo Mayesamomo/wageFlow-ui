@@ -1,37 +1,38 @@
+
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import DashboardLayout from './components/sharedLayout/DashboardLayout'
-import { PublicLayout } from './components/sharedLayout/PublicLayout'
-import InvoiceTable from './pages/Invoice'
-import Client from './pages/Client'
-import LoginPage from './pages/Login'
-import Register from './pages/Register'
-import Home from './pages/Home'
-import Dashboard from './pages/Dashboard'
+import Header from './components/Header/Header';
+import {Routes, Route, Navigate  } from 'react-router-dom';
 
+import Login from './pages/Login/Login';
+import SignUp from './pages/SignUp/SignUp';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Client from './pages/Client/Client';
+import SideBar from './components/SideBar/SideBar';
+import InvoiceDetails from './components/Invoice/InvoiceDetails';
+import Invoices from './pages/Invoice/Invoices';
+import Invoice from './components/Invoice/Invoice';
+import { ProtectedRoutes } from './utils/ProtectedRoutes';
 function App() {
-
+const user = JSON.parse(localStorage.getItem('profile'))
   return (
-    <BrowserRouter>
+    <div className="App">
+     {user && <SideBar/>}
+     <Header/>
       <Routes>
-        <Route element={<PublicLayout />}>
-          <Route exact  path='/' element={<Home/>} />
-          <Route path='login' element={<LoginPage />} />
-          <Route path='register' element={<Register />} />
-        </Route>
-        
-        <Route exact path='/' element={<DashboardLayout />} >
-        <Route path='/dashboard' element={<Dashboard/>} />
-          <Route path='/invoice' element={<InvoiceTable />} />
-          <Route path='invoice/:id' element={<InvoiceTable />} />
-          <Route path='invoice/:id/edit' element={<InvoiceTable />} />
-          <Route path='invoice/:id/delete' element={<InvoiceTable />} />
-          <Route path='client' element={<Client />} />
+      <Route path="/" element={<SignUp/>} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="*" element={<h1>Not Found</h1>} />
+        <Route element={<ProtectedRoutes/>}>
+        <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="clients" element={<Client/>} />
+        <Route path="/invoices" element={<Invoices/>} />
+        <Route path="invoice/:id" exact element={<Invoice/>} />
+        <Route path="/invoice/:id" exact element={<InvoiceDetails/>} />
+        <Navigate path="/new-invoice" replace to="/invoice"  />
         </Route>
       </Routes>
-    </BrowserRouter>
-
-
+    </div>
+    
   )
 }
 

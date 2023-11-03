@@ -1,13 +1,199 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Variables */
+:root {
+  --primary-bg-color: #EEEEEE;
+  --secondary-bg-color: #ffffff;
+  --text-primary: #b6b6b6;
+  --text-secondary: #ececec;
+  --primary-button-border: #1976d2;
+  --success-color: #A0D468;
+  --error-color: #ED5565;
+  --transition-speed: 600ms;
+  --font-family: 'Roboto';
+  --font-size: 16px;
+  --scrollbar-track-color: grey;
+  --scrollbar-thumb-color: rgb(141, 187, 255);
+  --navbar-width: 5rem;
+  --navbar-hover-width: 16rem;
+  --nav-link-height: 3.8rem;
+  --logo-background: #141418;
+}
 
-@media (max-width: 768px) {
-  .flex-wrap {
-      display: flex;
-      flex-wrap: wrap;
+/* Reset */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Body */
+body {
+  background-color: var(--primary-bg-color);
+}
+
+/* Table Container */
+.tb-container .Mui-focused {
+  background-color: var(--secondary-bg-color);
+  box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+
+/* Table Head Cell */
+.MuiTableCell-head {
+  padding: 10px !important;
+  padding-left: 10px !important;
+}
+
+/* Table Body Cell */
+.MuiTableCell-body {
+  padding: 6px !important;
+  padding-left: 10px !important;
+}
+
+/* Paper Elevation */
+.MuiPaper-elevation1 {
+  box-shadow: none !important;
+}
+
+/* Progress Button Container */
+.pb-container {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  margin: 5px 7px;
+}
+
+/* Progress Button */
+.pb-container .pb-button {
+  background: transparent;
+  border: 1px solid var(--primary-button-border);
+  border-radius: 27px;
+  color: currentColor;
+  cursor: pointer;
+  padding: 0.7em 1em;
+  background-color: var(--secondary-bg-color);
+  text-decoration: none;
+  text-align: center;
+  height: 54px;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  transition: background-color var(--transition-speed), width var(--transition-speed), border-width var(--transition-speed), border-color var(--transition-speed), border-radius var(--transition-speed);
+}
+
+/* Progress Button Text */
+.pb-container .pb-button span {
+  display: inherit;
+  transition: opacity var(--transition-speed) 0.1s;
+  font-size: 16px;
+  font-weight: 100;
+}
+
+/* Progress Button SVG */
+.pb-container .pb-button svg {
+  height: 54px;
+  width: 54px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Progress Button SVG Path */
+.pb-container .pb-button svg path {
+  opacity: 0;
+  fill: none;
+}
+
+/* Progress Button Circle Animation */
+.pb-container .pb-button svg.pb-progress-circle {
+  animation: spin 0.9s infinite cubic-bezier(0.085, 0.260, 0.935, 0.710);
+}
+
+/* Progress Button Circle Path */
+.pb-container .pb-button svg.pb-progress-circle path {
+  stroke: currentColor;
+  stroke-width: 5;
+}
+
+/* Progress Button Checkmark and Cross Paths */
+.pb-container .pb-button svg.pb-checkmark path,
+.pb-container .pb-button svg.pb-cross path {
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+/* Disabled State */
+.pb-container.disabled .pb-button {
+  cursor: not-allowed;
+}
+
+/* Loading State */
+.pb-container.loading .pb-button {
+  width: 54px;
+  border-width: 6.5px;
+  border-color: #ddd;
+  cursor: wait;
+  background-color: transparent;
+  padding: 0;
+}
+
+/* Loading State Text */
+.pb-container.loading .pb-button span {
+  transition: all 0.15s;
+  opacity: 0;
+  display: none;
+}
+
+/* Loading State Progress Circle Path */
+.pb-container.loading .pb-button .pb-progress-circle > path {
+  transition: opacity 0.15s 0.3s;
+  opacity: 1;
+}
+
+/* Success State */
+.pb-container.success .pb-button {
+  border-color: var(--success-color);
+  background-color: var(--success-color);
+}
+
+/* Success State Text */
+.pb-container.success .pb-button span {
+  transition: all 0.15s;
+  opacity: 0;
+  display: none;
+}
+
+/* Success State Checkmark Path */
+.pb-container.success .pb-button .pb-checkmark > path {
+  opacity: 1;
+}
+
+/* Error State */
+.pb-container.error .pb-button {
+  border-color: var(--error-color);
+  background-color: var(--error-color);
+}
+
+/* Error State Text */
+.pb-container.error .pb-button span {
+  transition: all 0.15s;
+  opacity: 0;
+  display: none;
+}
+
+/* Error State Cross Path */
+.pb-container.error .pb-button .pb-cross > path {
+  opacity: 1;
+}
+
+/* Animation Keyframes */
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+    transform-origin: center center;
   }
-  .section-small {
-      width: 50%;
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+    transform-origin: center center;
   }
 }
