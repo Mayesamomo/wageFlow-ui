@@ -11,12 +11,12 @@ api.interceptors.request.use((req) => {
 
 //@desc invoices api calls 
 
-export const fetchInvoice=(id)=> api.get(`/invoice/${id}`);
-export const fetchInvoices=()=> api.get('/invoice');
-export const createInvoice=(invoice)=> api.post('/invoice', invoice);
-export const updateInvoice=(id, invoice)=> api.patch(`/invoice/${id}`, invoice);
-export const deleteInvoice=(id)=> api.delete(`/invoice/${id}`);
-export const getTotals=()=> api.get('/invoice/count');
+export const fetchInvoice=(id)=> api.get(`/invoices/${id}`);
+export const fetchInvoices=()=> api.get('/invoices');
+export const createInvoice=(invoice)=> api.post('/invoices', invoice);
+export const updateInvoice=(id, invoice)=> api.patch(`/invoices/${id}`, invoice);
+export const deleteInvoice=(id)=> api.delete(`/invoices/${id}`);
+export const getTotals=()=> api.get('/invoices/count');
 export const getInvoiceByUser=(searchQuery)=> api.get(`/invoices?searchQuery=${searchQuery.search}`);
 export const getWeeklyEarnings=()=> api.get('/invoices/earnings');
 export const getRecentInvoices=()=> api.get('/invoices/recent');
@@ -34,7 +34,7 @@ export const getClientByUser=(searchQuery)=> api.get(`/clients/user?searchQuery=
 //@desc get user
 //@route GET /api/user
 export const fetchUser = async () => {
-  const { data } = await api.get("/user");
+  const { data } = await api.get("/users");
   return data;
 };
 

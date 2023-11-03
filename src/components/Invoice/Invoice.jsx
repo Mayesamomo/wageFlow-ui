@@ -30,7 +30,7 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import { initialState } from '../../redux/Invoice/initialState';
 import { createInvoice, getInvoice, updateInvoice } from '../../redux/actions/invoice';
-import { getClientsByUser } from '../../actions/clientActions';
+import { getClientsByUser } from '../../redux/actions/client';
 import AddClient from '../Client/AddClient';
 import {getTotals,fetchInvoices} from '../../api/index'
 

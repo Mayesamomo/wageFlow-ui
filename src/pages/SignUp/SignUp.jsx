@@ -1,4 +1,6 @@
-
+/* eslint-disable no-unused-vars */
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -7,21 +9,53 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Copyright from '../../components/Shared/Footer';
 import Typography from '@mui/material/Typography';
-import {  Link } from 'react-router-dom';
-export default function SignUp() {
+import Copyright from '../../components/Shared/Footer'
+import { Link } from 'react-router-dom';
+import { signup } from '../../redux/actions/auth';
+import { toast } from 'react-toastify';
+import {useDispatch} from 'react-redux'
 
-  // const navigate = useNavigate();
+const initialState = {
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '', // Add a confirmPassword field
+};
+
+export default function SignUp() {
+  const [formData, setFormData] = useState(initialState);
+const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const user = JSON.parse(localStorage.getItem('profile'));
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    // Check if all fields are filled
+    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+
+    // Check if the password and confirmPassword match
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords don't match");
+      return;
+    }
+
+    // All validations passed, proceed with signup
+    dispatch(signup(formData, toast, setLoading));
   };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  if(user){
+    navigate('/dashboard');
+  }
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
@@ -66,6 +100,8 @@ export default function SignUp() {
               name="name"
               autoComplete="name"
               autoFocus
+              onChange={handleChange}
+              value={formData.name}
             />
             <TextField
               margin="normal"
@@ -76,6 +112,8 @@ export default function SignUp() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={handleChange}
+              value={formData.email}
             />
             <TextField
               margin="normal"
@@ -86,23 +124,22 @@ export default function SignUp() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handleChange}
+              value={formData.password}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="confirmpassword"
-              label="Confrim Password"
+              name="confirmPassword"
+              label="Confirm Password"
               type="password"
-              id="password"
+              id="confirmPassword"
               autoComplete="current-password"
+              onChange={handleChange}
+              value={formData.confirmPassword}
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Sign Up
             </Button>
             <Grid container>
@@ -112,8 +149,8 @@ export default function SignUp() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
-                  {"Already have an account? Sign In"}
+                <Link href="/login" variant="body2">
+                  {'Already have an account? Sign In'}
                 </Link>
               </Grid>
             </Grid>

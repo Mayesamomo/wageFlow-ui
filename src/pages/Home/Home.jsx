@@ -1,4 +1,6 @@
 import styles from './Home.module.css'
+import { Link } from 'react-router-dom'
+import  Button  from '@mui/material/Button'
 const Home = () => {
    
     return (
@@ -10,8 +12,14 @@ const Home = () => {
                    
                     <p>including Personal Support Workers (P.S.W), Developmental Support Workers (D.S.W), and similar professions.</p>
                 </div>
-                <div className={styles.imgContainer}>
-                    <img src="https://res.cloudinary.com/almpo/image/upload/v1637241441/special/banner_izy4xm.png" alt="invoicing-app"/>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    MarginTop: '2rem',
+                
+                }}>
+                    <Button variant="contained" color="primary" size="large" component={Link} to="/signup">Get Started</Button>
                 </div>
             </section>
         </div>
