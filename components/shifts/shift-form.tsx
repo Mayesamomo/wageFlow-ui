@@ -13,7 +13,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
+import { cn } from "@/lib/utils"
 import type { Shift } from "@/types/shift"
 import type { Client } from "@/types/client"
 import { createShift, updateShift } from "@/lib/api/shifts"
@@ -208,7 +210,10 @@ export function ShiftForm({ shift }: ShiftFormProps) {
                     <FormControl>
                       <Button
                         variant={"outline"}
-                        className="h-12 w-full justify-start bg-background pl-3 text-left font-normal"
+                        className={cn(
+                          "h-12 w-full justify-start bg-background pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
                       >
                         {field.value ? format(field.value, "PPP") : <span>Select Date</span>}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -256,12 +261,44 @@ export function ShiftForm({ shift }: ShiftFormProps) {
 
           <FormField
             control={form.control}
+            name="breakDuration"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Break Duration (minutes)</FormLabel>
+                <FormControl>
+                  <Input type="number" min="0" {...field} className="h-12 bg-background" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="hourlyRate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Pay per Hour</FormLabel>
+                <FormLabel>Pay per Hour ($)</FormLabel>
                 <FormControl>
                   <Input type="number" step="0.01" min="0" {...field} className="h-12 bg-background" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="notes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Notes (Optional)</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Additional notes about this shift..."
+                    className="min-h-[100px] bg-background"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -277,9 +314,16 @@ export function ShiftForm({ shift }: ShiftFormProps) {
               <span>Total Earnings:</span>
               <span className="font-medium">${totalEarnings.toFixed(2)}</span>
             </div>
+            <div className="flex justify-between">
+              <span>HST ({user?.hstPercentage || 0}%):</span>
+              <span className="font-medium">${hstAmount.toFixed(2)}</span>
+            </div>
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            <Button type="button" variant="outline" onClick={() => router.back()}>
+              Cancel
+            </Button>
             <Button type="submit" disabled={isLoading} className="w-full md:w-auto">
               {isLoading ? "Saving..." : "Save Shift"}
             </Button>

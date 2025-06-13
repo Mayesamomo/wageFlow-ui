@@ -11,6 +11,7 @@ export interface Shift {
   totalHours: number
   totalEarnings: number
   hstAmount: number
+  invoiceId?: string
   createdAt: string
   updatedAt: string
 }

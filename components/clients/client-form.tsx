@@ -8,6 +8,7 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 import type { Client } from "@/types/client"
 import { createClient, updateClient } from "@/lib/api/clients"
@@ -34,6 +35,7 @@ const clientFormSchema = z.object({
   postalCode: z.string().min(5, {
     message: "Postal code must be at least 5 characters.",
   }),
+  notes: z.string().optional(),
 })
 
 type ClientFormValues = z.infer<typeof clientFormSchema>
@@ -57,6 +59,7 @@ export function ClientForm({ client }: ClientFormProps) {
       city: client?.city || "",
       province: client?.province || "",
       postalCode: client?.postalCode || "",
+      notes: client?.notes || "",
     },
   })
 
@@ -97,7 +100,7 @@ export function ClientForm({ client }: ClientFormProps) {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <h1 className="mb-6 text-3xl font-bold">Add New Client</h1>
+      <h1 className="mb-6 text-3xl font-bold">{client ? "Edit Client" : "Add New Client"}</h1>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -157,7 +160,72 @@ export function ClientForm({ client }: ClientFormProps) {
             )}
           />
 
-          <div className="flex justify-end">
+          <div className="grid gap-6 md:grid-cols-3">
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input placeholder="City" {...field} className="h-12 bg-background" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="province"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Province</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Province" {...field} className="h-12 bg-background" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="postalCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Postal Code</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Postal Code" {...field} className="h-12 bg-background" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name="notes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Notes (Optional)</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Additional notes about this client..."
+                    className="min-h-[100px] bg-background"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="flex justify-end gap-2">
+            <Button type="button" variant="outline" onClick={() => router.back()}>
+              Cancel
+            </Button>
             <Button type="submit" disabled={isLoading} className="w-full md:w-auto">
               {isLoading ? "Saving..." : "Save Client"}
             </Button>

@@ -5,13 +5,14 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { AuthProvider } from "@/lib/auth/auth-provider"
+import LayoutWrapper from "./layout-wrapper"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "WageFlow - Healthcare Worker Management",
   description: "Manage your healthcare shifts, clients, and invoices efficiently",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -24,7 +25,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <AuthProvider>
-            {children}
+            <LayoutWrapper>
+              {children}
+            </LayoutWrapper>
             <Toaster />
           </AuthProvider>
         </ThemeProvider>

@@ -11,10 +11,10 @@ export async function fetchClients(params?: {
 
     // Ensure we always return the expected structure
     return {
-      clients: response.data?.clients || response.data?.data || [],
+      clients: response.data?.clients || response.data?.data || response.data || [],
       total: response.data?.total || response.data?.meta?.total || 0,
-      page: response.data?.page || response.data?.meta?.page || 1,
-      limit: response.data?.limit || response.data?.meta?.limit || 10,
+      page: response.data?.page || response.data?.meta?.page || params?.page || 1,
+      limit: response.data?.limit || response.data?.meta?.limit || params?.limit || 10,
     }
   } catch (error) {
     console.error("Error fetching clients:", error)
@@ -22,8 +22,8 @@ export async function fetchClients(params?: {
     return {
       clients: [],
       total: 0,
-      page: 1,
-      limit: 10,
+      page: params?.page || 1,
+      limit: params?.limit || 10,
     }
   }
 }
@@ -68,11 +68,12 @@ export async function updateClient(id: string, clientData: Partial<Client>): Pro
   }
 }
 
-export async function deleteClient(id: string): Promise<void> {
+export async function deleteClient(id: string): Promise<boolean> {
   try {
     await apiClient.delete(`/clients/${id}`)
+    return true
   } catch (error: any) {
     console.error(`Error deleting client ${id}:`, error)
-    throw new Error(error.response?.data?.message || "Failed to delete client")
+    return false
   }
 }

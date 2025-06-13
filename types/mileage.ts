@@ -7,6 +7,7 @@ export interface MileageEntry {
   notes?: string
   mileageRate: number
   totalReimbursement: number
+  invoiceId?: string
   createdAt: string
   updatedAt: string
 }
