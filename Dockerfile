@@ -18,7 +18,7 @@ COPY . .
 
 # Set environment variables
 ENV NEXT_TELEMETRY_DISABLED 1
-ENV NEXT_PUBLIC_API_URL=http://localhost:3000/api
+ENV NEXT_PUBLIC_API_URL=http://host.docker.internal:3000/api
 
 # Build the application
 RUN npm run build
@@ -29,7 +29,7 @@ WORKDIR /app
 
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
-ENV NEXT_PUBLIC_API_URL=http://localhost:3000/api
+ENV NEXT_PUBLIC_API_URL=http://host.docker.internal:3000/api
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
